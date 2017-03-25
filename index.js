@@ -1,4 +1,5 @@
 var functions = require('firebase-functions');
+var cors = require('cors')({ origin: true });
 var Twitter = require('twitter');
 
 var client = new Twitter({
@@ -9,8 +10,9 @@ var client = new Twitter({
 });
 
 exports.twitterFeed = functions.https.onRequest((req, res) => {
-  let screenName = 'thelucideffect';
-  return client.get('statuses/user_timeline', { screen_name: screenName, count: 2})
+  cors(req, res, () => {
+    let screenName = 'thelucideffect';
+    return client.get('statuses/user_timeline', { screen_name: screenName, count: 2})
     .then((tweets) => {
       res.status(200);
       res.send(tweets);
@@ -21,4 +23,5 @@ exports.twitterFeed = functions.https.onRequest((req, res) => {
       res.send(err);
       return;
     });
+  });
 });
