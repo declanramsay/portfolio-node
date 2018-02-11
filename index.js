@@ -11,7 +11,7 @@ var client = new Twitter({
 
 exports.twitterFeed = functions.https.onRequest((req, res) => {
   cors(req, res, () => {
-    let screenName = 'thelucideffect';
+    let screenName = 'declanramsay_';
     return client.get('statuses/user_timeline', { screen_name: screenName, count: 2})
     .then((tweets) => {
       res.status(200);
